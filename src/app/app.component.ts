@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   constructor(
     private renderer: Renderer2,
     private sortingService: SortingServicesService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.init();
@@ -45,16 +45,21 @@ export class AppComponent implements OnInit {
     let swaps: number[][];
     switch (this.selectedSort) {
       case SortType.Bubble:
-  
+
         swaps = this.sortingService.bubblesort(copy);
         break;
-      case SortType.Merge:
-        // swaps = this.sortingService.mergeSort(copy);
+      case SortType.Selection:
+        swaps = this.sortingService.selectionSort(copy);
         break;
       case SortType.Insertion:
         swaps = this.sortingService.insertionSort(copy);
         break;
-      // Add cases for other sorting algorithms
+        case SortType.Heap:
+          swaps = this.sortingService.heapSort(copy);
+          break;
+          case SortType.Merge:
+            swaps = this.sortingService.mergeSort(copy);
+            break;
       default:
         console.error('Invalid sort type');
         return;
@@ -62,17 +67,22 @@ export class AppComponent implements OnInit {
 
     this.animate(swaps);
   }
- 
 
-  animate(swaps:any){
-    if (swaps.length==0){
+  reset() {
+    this.array = [...this.array];
+    this.showBars();
+  }
+
+
+  animate(swaps: any) {
+    if (swaps.length == 0) {
       this.showBars();
       return;
     }
-    const [i,j]=swaps.shift();
-    [this.array[i],this.array[j]]=[this.array[j],this.array[i]];
+    const [i, j] = swaps.shift();
+    [this.array[i], this.array[j]] = [this.array[j], this.array[i]];
     this.showBars([i, j]);
-        setTimeout(() => {
+    setTimeout(() => {
       this.animate(swaps);
     }, 5);
   }
