@@ -1,11 +1,10 @@
-// sorting-services.service.ts
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SortingServicesService {
-  constructor() {}
+  constructor() { }
 
   bubblesort(array: number[]) {
     const swaps: number[][] = [];
@@ -97,7 +96,7 @@ export class SortingServicesService {
   }
 
 
-  
+
   mergeSortHelper(
     mainArray: number[],
     startIdx: number,

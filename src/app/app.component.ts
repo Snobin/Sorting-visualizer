@@ -1,4 +1,3 @@
-// app.component.ts
 import { Component, ViewChild, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { SortingServicesService } from './sorting-services.service';
 
@@ -19,9 +18,9 @@ enum SortType {
 export class AppComponent implements OnInit {
   title = 'sorting-visualizer';
   array: number[] = [];
-  timeout:number=20;
+  timeout: number = 20;
   numberOfElements: number;
-  selectedSort: any; // Default to Bubble Sort
+  selectedSort: any = "Select";
   @ViewChild('container', { static: true }) container: ElementRef;
   @ViewChild('barsContainer', { static: true }) barsContainer: ElementRef;
 
@@ -56,12 +55,12 @@ export class AppComponent implements OnInit {
       case SortType.Insertion:
         swaps = this.sortingService.insertionSort(copy);
         break;
-        case SortType.Heap:
-          swaps = this.sortingService.heapSort(copy);
-          break;
-          case SortType.Merge:
-            swaps = this.sortingService.mergeSort(copy);
-            break;
+      case SortType.Heap:
+        swaps = this.sortingService.heapSort(copy);
+        break;
+      case SortType.Merge:
+        swaps = this.sortingService.mergeSort(copy);
+        break;
       default:
         console.error('Invalid sort type');
         return;
