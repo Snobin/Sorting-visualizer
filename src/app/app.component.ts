@@ -8,6 +8,7 @@ enum SortType {
   Merge = 'merge',
   Insertion = 'insertion',
   Heap = 'heap',
+  quick='quick',
 }
 
 @Component({
@@ -61,6 +62,9 @@ export class AppComponent implements OnInit {
       case SortType.Merge:
         swaps = this.sortingService.mergeSort(copy);
         break;
+      case SortType.quick:
+          swaps = this.sortingService.quickSort(copy);
+          break;
       default:
         console.error('Invalid sort type');
         return;

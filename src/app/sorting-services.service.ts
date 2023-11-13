@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class SortingServicesService {
-  constructor() { }
+  constructor() {}
 
   bubblesort(array: number[]) {
     const swaps: number[][] = [];
@@ -51,6 +51,7 @@ export class SortingServicesService {
     }
     return swaps;
   }
+
   heapSort(array: number[]) {
     const swaps: number[][] = [];
     let n = array.length;
@@ -95,8 +96,6 @@ export class SortingServicesService {
     return animations;
   }
 
-
-
   mergeSortHelper(
     mainArray: number[],
     startIdx: number,
@@ -119,32 +118,69 @@ export class SortingServicesService {
     tempArray: number[],
     animations: any[]
   ) {
-    let k = startIdx;
     let i = startIdx;
     let j = middleIdx + 1;
+    let k = startIdx;
+
     while (i <= middleIdx && j <= endIdx) {
-      animations.push([i, j, tempArray[j]]);
-      animations.push([i, j, tempArray[j]]);
+      animations.push([i, j]); // Elements being compared
+
       if (tempArray[i] <= tempArray[j]) {
-        animations.push([k, tempArray[i]]);
+        animations.push([k, tempArray[i]]); // Update value at index k
         mainArray[k++] = tempArray[i++];
       } else {
-        animations.push([k, tempArray[j]]);
+        animations.push([k, tempArray[j]]); // Update value at index k
         mainArray[k++] = tempArray[j++];
       }
     }
+
+    // Handle remaining elements in the left and right subarrays
     while (i <= middleIdx) {
-      animations.push([i, i, tempArray[i]]);
-      animations.push([i, i, tempArray[i]]);
-      animations.push([k, tempArray[i]]);
+      animations.push([i, i]); // Highlight the remaining element in the left subarray
+      animations.push([k, tempArray[i]]); // Update value at index k
       mainArray[k++] = tempArray[i++];
     }
+
     while (j <= endIdx) {
-      animations.push([j, j, tempArray[j]]);
-      animations.push([j, j, tempArray[j]]);
-      animations.push([k, tempArray[j]]);
+      animations.push([j, j]); // Highlight the remaining element in the right subarray
+      animations.push([k, tempArray[j]]); // Update value at index k
       mainArray[k++] = tempArray[j++];
     }
   }
-}
 
+  quickSort(array: number[]) {
+    const animations: any[] = [];
+    this.quickSortHelper(array, 0, array.length - 1, animations);
+    return animations;
+  }
+
+  quickSortHelper(array: number[], low: number, high: number, animations: any[]) {
+    if (low < high) {
+      const partitionIndex = this.partition(array, low, high, animations);
+      this.quickSortHelper(array, low, partitionIndex - 1, animations);
+      this.quickSortHelper(array, partitionIndex + 1, high, animations);
+    }
+  }
+
+  partition(array: number[], low: number, high: number, animations: any[]) {
+    const pivot = array[high];
+    let i = low - 1;
+
+    for (let j = low; j < high; j++) {
+      animations.push([j, high]); // Elements being compared
+      if (array[j] <= pivot) {
+        i++;
+        animations.push([i, array[j]]); // Update value at index i
+        animations.push([j, array[i]]); // Update value at index j
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    animations.push([i + 1, high]); // Elements being compared
+    animations.push([i + 1, array[high]]); // Update value at index i+1
+    animations.push([high, array[i + 1]]); // Update value at index high
+    [array[i + 1], array[high]] = [array[high], array[i + 1]];
+
+    return i + 1;
+  }
+}
