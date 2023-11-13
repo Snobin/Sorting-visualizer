@@ -1,79 +1,102 @@
-import { Component, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+// app.component.ts
+import { Component, ViewChild, ElementRef, Renderer2, OnInit } from '@angular/core';
+import { SortingServicesService } from './sorting-services.service';
+
+enum SortType {
+  Selection = 'selection',
+  Bubble = 'bubble',
+  Merge = 'merge',
+  Insertion = 'insertion',
+  Heap = 'heap',
+}
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'sorting-visualizer';
   array: number[] = [];
   numberOfElements: number;
-
+  selectedSort: any; // Default to Bubble Sort
   @ViewChild('container', { static: true }) container: ElementRef;
   @ViewChild('barsContainer', { static: true }) barsContainer: ElementRef;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private renderer: Renderer2,
+    private sortingService: SortingServicesService
+  ) {}
+
+  ngOnInit() {
+    this.init();
+  }
 
   init() {
-
-    this.array=[];
+    this.array = [];
     for (let i = 0; i < this.numberOfElements; i++) {
       this.array.push(Math.random());
     }
-    this.showbars();
+    this.showBars();
   }
 
   play() {
-    const copy=[...this.array]
-    const swaps=this.bubblesort(copy);
+    const copy = [...this.array];
+    let swaps: number[][];
+    switch (this.selectedSort) {
+      case SortType.Bubble:
+  
+        swaps = this.sortingService.bubblesort(copy);
+        break;
+      case SortType.Merge:
+        // swaps = this.sortingService.mergeSort(copy);
+        break;
+      case SortType.Insertion:
+        swaps = this.sortingService.insertionSort(copy);
+        break;
+      // Add cases for other sorting algorithms
+      default:
+        console.error('Invalid sort type');
+        return;
+    }
+
     this.animate(swaps);
-    // this.showbars();
   }
+ 
+
   animate(swaps:any){
     if (swaps.length==0){
+      this.showBars();
       return;
     }
     const [i,j]=swaps.shift();
     [this.array[i],this.array[j]]=[this.array[j],this.array[i]];
-    this.showbars();
-    setTimeout(() => {
+    this.showBars([i, j]);
+        setTimeout(() => {
       this.animate(swaps);
     }, 5);
   }
-  showbars() {
-    // Clear previous bars
+
+
+  showBars(indices?: number[]) {
     this.clearBars();
-  
+
     for (let i = 0; i < this.array.length; i++) {
       const bar = this.renderer.createElement('div');
       const roundedHeight = this.array[i] * 100;
       this.renderer.setStyle(bar, 'width', '10px');
       this.renderer.setStyle(bar, 'height', `${roundedHeight}px`);
       this.renderer.setStyle(bar, 'background-color', 'black');
+
+      if (indices && indices.includes(i)) {
+        this.renderer.setStyle(bar, 'background-color', 'red');
+      }
+
       this.renderer.appendChild(this.barsContainer.nativeElement, bar);
     }
   }
-  
+
   clearBars() {
-    // Clear the barsContainer
     this.barsContainer.nativeElement.innerHTML = '';
   }
-  
-
-  bubblesort(array: number[]) {
-    const swaps: number[][] = [];
-    do {
-      var swapped = false;
-      for (let i = 1; i < array.length; i++) {
-        if (array[i - 1] > array[i]) {
-          swapped = true;
-          swaps.push([i - 1, i]);
-          [array[i - 1], array[i]] = [array[i], array[i - 1]];
-        }
-      }
-    } while (swapped);
-    return swaps;
-  }
-  
 }
