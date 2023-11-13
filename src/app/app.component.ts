@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
 
     for (let i = 0; i < this.array.length; i++) {
       const bar = this.renderer.createElement('div');
-      const roundedHeight = this.array[i] * 100;
+      const roundedHeight = this.array[i] * 350;
       this.renderer.setStyle(bar, 'width', '10px');
       this.renderer.setStyle(bar, 'height', `${roundedHeight}px`);
       this.renderer.setStyle(bar, 'background-color', 'black');
