@@ -1,0 +1,41 @@
+.container {
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+  }
+  /* Add styling for the new bars container */
+.bars-container {
+
+    justify-content: center;
+    margin:auto;
+    height: 200px;
+    width: 50%;
+    display:flex;
+    align-items:flex-end;
+  }
+  
+  
+  h1 {
+    color: #333;
+  }
+  
+  label {
+    margin-right: 10px;
+  }
+  
+  select {
+    padding: 5px;
+    font-size: 14px;
+  }
+  
+  /* Optional: Add hover effect to the container */
+  .container:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  button{
+    margin: 20px;
+  }
+  
