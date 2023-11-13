@@ -13,6 +13,8 @@
 
     <label for="nos" style="margin: 20px;">Number of elements</label>
     <input type="text" id="nos" [(ngModel)]="numberOfElements" />
+    <label for="timeout" style="margin: 20px;">Set Time Lapse</label>
+    <input type="text" id="timeout" [(ngModel)]="timeout"/>
   </div>
   <!-- Use (click) event binding to handle button click -->
   <button (click)="init()">Display</button>

@@ -2,6 +2,7 @@
 import { Component, ViewChild, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { SortingServicesService } from './sorting-services.service';
 
+
 enum SortType {
   Selection = 'selection',
   Bubble = 'bubble',
@@ -18,6 +19,7 @@ enum SortType {
 export class AppComponent implements OnInit {
   title = 'sorting-visualizer';
   array: number[] = [];
+  timeout:number=20;
   numberOfElements: number;
   selectedSort: any; // Default to Bubble Sort
   @ViewChild('container', { static: true }) container: ElementRef;
@@ -69,7 +71,7 @@ export class AppComponent implements OnInit {
   }
 
   reset() {
-    this.array = [...this.array];
+    this.array = [];
     this.showBars();
   }
 
@@ -84,7 +86,7 @@ export class AppComponent implements OnInit {
     this.showBars([i, j]);
     setTimeout(() => {
       this.animate(swaps);
-    }, 5);
+    }, this.timeout);
   }
 
 
