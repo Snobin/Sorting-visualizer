@@ -102,6 +102,9 @@ export class AppComponent implements OnInit {
       this.renderer.setStyle(bar, 'width', '10px');
       this.renderer.setStyle(bar, 'height', `${roundedHeight}px`);
       this.renderer.setStyle(bar, 'background-color', 'black');
+      if(this.numberOfElements<=350){        
+        this.renderer.setStyle(bar, 'border', '1px solid white');
+      }
 
       if (indices && indices.includes(i)) {
         this.renderer.setStyle(bar, 'background-color', 'red');
